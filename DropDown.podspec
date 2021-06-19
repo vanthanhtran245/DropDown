@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name = "DropDown"
-  s.version = "2.3.13"
+  s.version = "2.3.14"
   s.summary = "A Material Design drop down"
 
   s.description = <<-DESC
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 
   s.platform = :ios, '8.0'
   s.source = {
-    :git => "https://github.com/AssistoLab/DropDown.git",
+    :git => "https://github.com/vanthanhtran245/iOSDropDown.git",
     :tag => "v#{s.version.to_s}"
   }
 

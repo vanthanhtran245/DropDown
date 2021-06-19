@@ -17,6 +17,7 @@ public typealias MultiSelectionClosure = ([Index], [String]) -> Void
 public typealias ConfigurationClosure = (Index, String) -> String
 public typealias CellConfigurationClosure = (Index, String, DropDownCell) -> Void
 private typealias ComputeLayoutTuple = (x: CGFloat, y: CGFloat, width: CGFloat, offscreenHeight: CGFloat)
+public typealias OnTapDismiss = (UIGestureRecognizer) -> Void
 
 /// Can be `UIView` or `UIBarButtonItem`.
 @objc
@@ -438,12 +439,14 @@ public final class DropDown: UIView {
 
 	/// The action to execute when the user cancels/hides the drop down.
 	public var cancelAction: Closure?
+    
+    public var onTapAction: OnTapDismiss?
 
 	/// The dismiss mode of the drop down. Default is `OnTap`.
 	public var dismissMode = DismissMode.onTap {
 		willSet {
 			if newValue == .onTap {
-				let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissableViewTapped))
+				let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissableViewTapped(touch:)))
 				dismissableView.addGestureRecognizer(gestureRecognizer)
 			} else if let gestureRecognizer = dismissableView.gestureRecognizers?.first {
 				dismissableView.removeGestureRecognizer(gestureRecognizer)
@@ -1152,7 +1155,8 @@ extension DropDown {
 	}
 
 	@objc
-	fileprivate func dismissableViewTapped() {
+	fileprivate func dismissableViewTapped(touch: UITapGestureRecognizer) {
+        onTapAction?(touch)
 		cancel()
 	}
 
